@@ -7,7 +7,9 @@ public class MyLinkedList{
    start = new Node(null);
    end = new Node(null);
  }
- public int size();
+ public int size(){
+   return size;
+ }
  public boolean add(String value);
  public boolean add(int index, String value);
  public String get(int index);
