@@ -22,7 +22,7 @@ public class MyLinkedList{
    return true;
 
  }
- public boolean add(int index, String value){
+ public void add(int index, String value){
    Node newNode = new Node(value);
    Node current = start;
    if(current != null){
@@ -35,13 +35,28 @@ public class MyLinkedList{
    size ++;
   }
  public String get(int index){
-
+   Node current=start;
+   for(int i = 0; i <= index; i++){
+     current = current.getNext();
+   }
+   return current.getData();
  }
  public String set(int index, String value){
 
  }
  public String toString(){
-
+   String result = "";
+	 if (start != null) {
+		Node current = start.getNext();
+		while (current != null) {
+		    result += current.getData().toString();
+        if(current.getNext() != null){
+          result += ", ";
+        }
+				current = current.getNext();
+		}
+	}
+  return "[" + result + "]";
  }
  //Any helper method that returns a Node object MUST BE PRIVATE!
 }
