@@ -42,7 +42,13 @@ public class MyLinkedList{
    return current.getData();
  }
  public String set(int index, String value){
-
+   Node current=start;
+   for(int i = 0; i <= index; i++){
+     current = current.getNext();
+   }
+   String old= current.getData();
+   current.setData(value);
+   return old;
  }
  public String toString(){
    String result = "";
