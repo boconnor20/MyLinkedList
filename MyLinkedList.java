@@ -11,13 +11,16 @@ public class MyLinkedList{
    return size;
  }
  public boolean add(String value){
-   Node  newNode=new Node(value);
-   newNode.setNext(null);
-   Node current=start;
-   while(current.getNext() != null){
-     current = current.getNext();
+   Node newNode = new Node(value);
+   if(size() ==0){
+     start = newNode;
+     end = newNode;
    }
-   current.setNext(newNode);
+   else{
+     end.setNext(newNode);
+     newNode.setPrev(end);
+     end = newNode;
+   }
    size++;
    return true;
 
@@ -31,15 +34,29 @@ public class MyLinkedList{
      throw new IndexOutOfBoundsException("Index is out of bounds!");
    }
    Node newNode = new Node(value);
-   Node current = start;
-   if(current != null){
-    for(int i = 0; i < index && current.getNext() != null; i++){
-      current = current.getNext();
-    }
-   }
-   newNode.setNext(current.getNext());
-   current.setNext(newNode);
-   size ++;
+       if (size == 0) {
+           start = newNode;
+           end = newNode;
+       }
+       else if (index == size) {
+           end.setNext(newNode);
+           newNode.setPrev(end);
+           end =newNode;
+       }
+       else if (index == 0) {
+           start.setPrev(newNode);
+           newNode.setNext(start);
+           start = newNode;
+       }
+       else {
+           Node newPrev = move(index - 1);
+           Node newNext = move(index);
+           newNode.setNext(newNext);
+           newPrev.setNext(newNode);
+           newNext.setPrev(newNode);
+           newNode.setPrev(newPrev);
+       }
+       size ++;
   }
  public String get(int index){
    if(index < 0 || index >= size()){
@@ -63,8 +80,24 @@ public class MyLinkedList{
    current.setData(value);
    return old;
  }
+ //private helper
+ private Node move(int index){
+  if(index < 0 || index >= size()){
+       throw new IndexOutOfBoundsException("Index is out of bounds!");
+  }
+  if (index == 0) return start;
+  if (index == size - 1) return end;
+  Node current = start;
+  for(int i = 0; i < index; i++){
+    current = current.getNext();
+  }
+  return current;
+}
  public String toString(){
    String result = "";
+   if(size()==0){
+     return "[]";
+   }
 	 if (start != null) {
 		Node current = start.getNext();
 		while (current != null) {
@@ -73,6 +106,23 @@ public class MyLinkedList{
           result += ", ";
         }
 				current = current.getNext();
+		}
+	}
+  return "[" + result + "]";
+ }
+ public String toStringReversed(){
+   String result = "";
+   if(size()==0){
+     return "[]";
+   }
+	 if (end != null) {
+		Node current = end;
+		while (current != null) {
+		    result += current.getData();
+        if(current.getPrev() != null){
+          result += ", ";
+        }
+				current = current.getPrev();
 		}
 	}
   return "[" + result + "]";
