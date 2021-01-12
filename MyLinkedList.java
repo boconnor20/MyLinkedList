@@ -128,4 +128,36 @@ public class MyLinkedList{
   return "[" + result + "]";
  }
  //Any helper method that returns a Node object MUST BE PRIVATE!
+ public String remove(int index){
+   try{
+     if(index < 0 || index > size()){
+       throw new IndexOutOfBoundsException("Index is out of bounds!");
+     }
+   }catch(NullPointerException e){
+     throw new IndexOutOfBoundsException("Index is out of bounds!");
+   }
+   String oldValue= "";
+       if (size == 1) {
+         oldValue = start.getData();
+         start = null;
+         end = null;
+       }
+       else if (index == 0) {
+         oldValue = start.getData();
+         Node freshStart = start.getNext();
+         freshStart.setPrev(null);
+         start.setNext(null);
+         start = freshStart;
+       }
+       else{
+     Node old = move(index);
+     oldValue = old.getData();
+     old.getPrev().setNext(old.getNext());//set the previous one's next to the old node's next
+     old.getNext().setPrev(old.getPrev());//set the next one's previous to the old node's previous
+     old.setNext(null);
+     old.setPrev(null);
+   }
+   size--;
+   return oldValue;
+ }
 }
